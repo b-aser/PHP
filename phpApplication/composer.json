@@ -1,0 +1,18 @@
+{
+    "name": "aser/php-application",
+    "description": "Our first php Application",
+    "require": {
+        "guzzlehttp/guzzle": "^7.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aser\\PhpApplication\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "b-aser",
+            "email": "asertesfaye@hotmail.com"
+        }
+    ]
+}
