@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Simple Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="flex justify-center items-center h-screen bg-gray-300">
+    <div class="border-2 border-black p-4 m-4 w-xs rounded-xl shadow-lg bg-white">
+        <input type="text" name="" id="display" disabled
+            class="w-full h-40 mb-10 text-right text-4xl p-2 border-2 border-black rounded-lg" />
+        <div class="items-center justify-center flex flex-wrap">
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="clearDisplay()">C</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('1')">1</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('2')">2</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('3')">3</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('5')">5</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('4')">4</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('6')">6</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('7')">7</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('8')">8</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('9')">9</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('0')">0</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('+')">+</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('-')">-</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('*')">*</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2 pointer rounded-lg"
+                onclick="appendToDisplay('/')">/</button>
+            <button class="w-[45px] text-xl h-[45px] m-2 border-2 border-black border-2  rounded-lg"
+                onclick="calculate()">=</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById('display').value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function calculate() {
+            var display = document.getElementById('display');
+            var expression = display.value;
+
+            if (expression) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'calculate.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        display.value = xhr.responseText;
+                    } else {
+                        display.value = 'Error: ' + xhr.status;
+                    }
+                };
+                xhr.onerror = function () {
+                    display.value = 'Network error';
+                };
+                xhr.send('expression=' + encodeURIComponent(expression));
+            }
+        }
+    </script>
+</body>
+
+</html>
